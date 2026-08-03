@@ -12,14 +12,14 @@
 	<string>Aymeric GILLAIZEAU</string>
 	<key>BundledFiles</key>
 	<array>
-		<string>/Users/aymeric/Pictures/Digikam/digikam-switch/digikam_template.zip</string>
+		<string>/digikam-switch/digikam_template.zip</string>
 	</array>
 	<key>Creator</key>
 	<string>Platypus-5.5.0</string>
 	<key>DeclareService</key>
 	<false/>
 	<key>Destination</key>
-	<string>/Users/aymeric/Desktop/Application.app</string>
+	<string>~/Desktop/Application.app</string>
 	<key>DevelopmentVersion</key>
 	<false/>
 	<key>DocIconPath</key>
@@ -29,7 +29,7 @@
 	<key>ExecutablePath</key>
 	<string>/usr/local/share/platypus/ScriptExec</string>
 	<key>IconPath</key>
-	<string>/Users/aymeric/Library/Application Support/Platypus/PlatypusIcon-52290.icns</string>
+	<string>/digikam-switch/icons/PlatypusIcon-52290.icns</string>
 	<key>Identifier</key>
 	<string>org.aymeric.DigikamSwitch</string>
 	<key>InterfaceType</key>
@@ -55,7 +55,7 @@
 	<key>ScriptArgs</key>
 	<array/>
 	<key>ScriptPath</key>
-	<string>/Users/aymeric/Pictures/Digikam/digikam-switch/macos/digikam_switch.sh</string>
+	<string>/digikam-switch/macos/digikam_switch.sh</string>
 	<key>SendNotifications</key>
 	<false/>
 	<key>StatusItemDisplayType</key>
