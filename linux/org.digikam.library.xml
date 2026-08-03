@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-digikam-library">
+        <comment>DigiKam Library</comment>
+        <comment xml:lang="fr">Bibliothèque DigiKam</comment>
+        <comment xml:lang="de">DigiKam-Bibliothek</comment>
+        <comment xml:lang="es">Biblioteca DigiKam</comment>
+        <comment xml:lang="it">Libreria DigiKam</comment>
+        <comment xml:lang="pt">Biblioteca DigiKam</comment>
+        <comment xml:lang="nl">DigiKam-bibliotheek</comment>
+        <comment xml:lang="pl">Biblioteka DigiKam</comment>
+        <comment xml:lang="uk">Бібліотека DigiKam</comment>
+        <comment xml:lang="ru">Библиотека DigiKam</comment>
+        <comment xml:lang="ja">DigiKam ライブラリ</comment>
+        <comment xml:lang="zh_CN">DigiKam 资料库</comment>
+        <comment xml:lang="ko">DigiKam 라이브러리</comment>
+        <glob pattern="*.digikamlibrary"/>
+    </mime-type>
+</mime-info>

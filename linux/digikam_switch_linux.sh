@@ -6,7 +6,10 @@
 # Dépendances optionnelles : kdialog (KDE), zenity (GNOME/GTK)
 
 DIGIKAMRC="$HOME/.config/digikamrc"
-DIGIKAM_BIN="digikam"
+# La commande de lancement de DigiKam est resolue a l'execution (resolve_digikam),
+# car selon l'installation (paquet, Flatpak, Snap, AppImage) il n'existe pas
+# forcement de binaire « digikam » dans le PATH.
+DIGIKAM_CMD=()
 TEMPLATE_ZIP="${TEMPLATE_ZIP:-$(dirname "$0")/digikam_template.zip}"
 
 # ── Détection de l'interface disponible ───────────────────────────────────────
@@ -38,7 +41,7 @@ set_strings() {
     local lang="$1"
     case "$lang" in
         fr)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Bibliothèque active"
             L_CHOOSE="Choisissez une bibliothèque :"
             L_OTHER="Autre emplacement..."
@@ -47,7 +50,7 @@ set_strings() {
             L_NAME_PROMPT="Nom de la nouvelle bibliothèque :"
             L_NAME_TITLE="DigiKam - Nouvelle bibliothèque"
             L_FOLDER_PROMPT="Choisissez un dossier pour la bibliothèque :"
-            L_FILE_PROMPT="Choisissez un .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Choisissez un .digikamlibrary DigiKam :"
             L_CONFIRM_MSG="Créer la bibliothèque ?"
             L_CONFIRM_TITLE="DigiKam - Confirmation"
             L_BTN_CANCEL="Annuler"
@@ -65,7 +68,7 @@ set_strings() {
             L_TEXT_PATH="Chemin complet de la bibliothèque :"
             ;;
         es)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Biblioteca activa"
             L_CHOOSE="Elija una biblioteca :"
             L_OTHER="Otra ubicación..."
@@ -74,7 +77,7 @@ set_strings() {
             L_NAME_PROMPT="Nombre de la nueva biblioteca :"
             L_NAME_TITLE="DigiKam - Nueva biblioteca"
             L_FOLDER_PROMPT="Elija una carpeta para la biblioteca :"
-            L_FILE_PROMPT="Elija un .photoslibrary de DigiKam :"
+            L_FILE_PROMPT="Elija un .digikamlibrary de DigiKam :"
             L_CONFIRM_MSG="¿Crear la biblioteca?"
             L_CONFIRM_TITLE="DigiKam - Confirmación"
             L_BTN_CANCEL="Cancelar"
@@ -92,7 +95,7 @@ set_strings() {
             L_TEXT_PATH="Ruta completa de la biblioteca :"
             ;;
         it)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Libreria attiva"
             L_CHOOSE="Scegli una libreria :"
             L_OTHER="Altra posizione..."
@@ -101,7 +104,7 @@ set_strings() {
             L_NAME_PROMPT="Nome della nuova libreria :"
             L_NAME_TITLE="DigiKam - Nuova libreria"
             L_FOLDER_PROMPT="Scegli una cartella per la libreria :"
-            L_FILE_PROMPT="Scegli un .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Scegli un .digikamlibrary DigiKam :"
             L_CONFIRM_MSG="Creare la libreria?"
             L_CONFIRM_TITLE="DigiKam - Conferma"
             L_BTN_CANCEL="Annulla"
@@ -119,7 +122,7 @@ set_strings() {
             L_TEXT_PATH="Percorso completo della libreria :"
             ;;
         de)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Aktive Bibliothek"
             L_CHOOSE="Wählen Sie eine Bibliothek :"
             L_OTHER="Anderer Speicherort..."
@@ -128,7 +131,7 @@ set_strings() {
             L_NAME_PROMPT="Name der neuen Bibliothek :"
             L_NAME_TITLE="DigiKam - Neue Bibliothek"
             L_FOLDER_PROMPT="Wählen Sie einen Ordner für die Bibliothek :"
-            L_FILE_PROMPT="Wählen Sie ein DigiKam .photoslibrary :"
+            L_FILE_PROMPT="Wählen Sie ein DigiKam .digikamlibrary :"
             L_CONFIRM_MSG="Bibliothek erstellen?"
             L_CONFIRM_TITLE="DigiKam - Bestätigung"
             L_BTN_CANCEL="Abbrechen"
@@ -146,7 +149,7 @@ set_strings() {
             L_TEXT_PATH="Vollständiger Pfad der Bibliothek :"
             ;;
         pt)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Biblioteca ativa"
             L_CHOOSE="Escolha uma biblioteca :"
             L_OTHER="Outro local..."
@@ -155,7 +158,7 @@ set_strings() {
             L_NAME_PROMPT="Nome da nova biblioteca :"
             L_NAME_TITLE="DigiKam - Nova biblioteca"
             L_FOLDER_PROMPT="Escolha uma pasta para a biblioteca :"
-            L_FILE_PROMPT="Escolha um .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Escolha um .digikamlibrary DigiKam :"
             L_CONFIRM_MSG="Criar a biblioteca?"
             L_CONFIRM_TITLE="DigiKam - Confirmação"
             L_BTN_CANCEL="Cancelar"
@@ -173,7 +176,7 @@ set_strings() {
             L_TEXT_PATH="Caminho completo da biblioteca :"
             ;;
         nl)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Actieve bibliotheek"
             L_CHOOSE="Kies een bibliotheek :"
             L_OTHER="Andere locatie..."
@@ -182,7 +185,7 @@ set_strings() {
             L_NAME_PROMPT="Naam van de nieuwe bibliotheek :"
             L_NAME_TITLE="DigiKam - Nieuwe bibliotheek"
             L_FOLDER_PROMPT="Kies een map voor de bibliotheek :"
-            L_FILE_PROMPT="Kies een DigiKam .photoslibrary :"
+            L_FILE_PROMPT="Kies een DigiKam .digikamlibrary :"
             L_CONFIRM_MSG="Bibliotheek aanmaken?"
             L_CONFIRM_TITLE="DigiKam - Bevestiging"
             L_BTN_CANCEL="Annuleren"
@@ -200,7 +203,7 @@ set_strings() {
             L_TEXT_PATH="Volledig pad van de bibliotheek :"
             ;;
         pl)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Aktywna biblioteka"
             L_CHOOSE="Wybierz bibliotekę :"
             L_OTHER="Inna lokalizacja..."
@@ -209,7 +212,7 @@ set_strings() {
             L_NAME_PROMPT="Nazwa nowej biblioteki :"
             L_NAME_TITLE="DigiKam - Nowa biblioteka"
             L_FOLDER_PROMPT="Wybierz folder dla biblioteki :"
-            L_FILE_PROMPT="Wybierz plik .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Wybierz plik .digikamlibrary DigiKam :"
             L_CONFIRM_MSG="Utworzyć bibliotekę?"
             L_CONFIRM_TITLE="DigiKam - Potwierdzenie"
             L_BTN_CANCEL="Anuluj"
@@ -227,7 +230,7 @@ set_strings() {
             L_TEXT_PATH="Pełna ścieżka biblioteki :"
             ;;
         uk)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Активна бібліотека"
             L_CHOOSE="Виберіть бібліотеку :"
             L_OTHER="Інше місце..."
@@ -236,7 +239,7 @@ set_strings() {
             L_NAME_PROMPT="Назва нової бібліотеки :"
             L_NAME_TITLE="DigiKam - Нова бібліотека"
             L_FOLDER_PROMPT="Виберіть папку для бібліотеки :"
-            L_FILE_PROMPT="Виберіть .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Виберіть .digikamlibrary DigiKam :"
             L_CONFIRM_MSG="Створити бібліотеку?"
             L_CONFIRM_TITLE="DigiKam - Підтвердження"
             L_BTN_CANCEL="Скасувати"
@@ -254,7 +257,7 @@ set_strings() {
             L_TEXT_PATH="Повний шлях бібліотеки :"
             ;;
         ru)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Активная библиотека"
             L_CHOOSE="Выберите библиотеку :"
             L_OTHER="Другое расположение..."
@@ -263,7 +266,7 @@ set_strings() {
             L_NAME_PROMPT="Название новой библиотеки :"
             L_NAME_TITLE="DigiKam - Новая библиотека"
             L_FOLDER_PROMPT="Выберите папку для библиотеки :"
-            L_FILE_PROMPT="Выберите .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Выберите .digikamlibrary DigiKam :"
             L_CONFIRM_MSG="Создать библиотеку?"
             L_CONFIRM_TITLE="DigiKam - Подтверждение"
             L_BTN_CANCEL="Отмена"
@@ -281,7 +284,7 @@ set_strings() {
             L_TEXT_PATH="Полный путь библиотеки :"
             ;;
         ja)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="アクティブなライブラリ"
             L_CHOOSE="ライブラリを選択してください :"
             L_OTHER="他の場所..."
@@ -290,7 +293,7 @@ set_strings() {
             L_NAME_PROMPT="新しいライブラリの名前 :"
             L_NAME_TITLE="DigiKam - 新しいライブラリ"
             L_FOLDER_PROMPT="ライブラリ用のフォルダを選択してください :"
-            L_FILE_PROMPT="DigiKam の .photoslibrary を選択してください :"
+            L_FILE_PROMPT="DigiKam の .digikamlibrary を選択してください :"
             L_CONFIRM_MSG="ライブラリを作成しますか？"
             L_CONFIRM_TITLE="DigiKam - 確認"
             L_BTN_CANCEL="キャンセル"
@@ -308,7 +311,7 @@ set_strings() {
             L_TEXT_PATH="ライブラリのフルパス :"
             ;;
         zh)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="当前资料库"
             L_CHOOSE="请选择一个资料库 :"
             L_OTHER="其他位置..."
@@ -317,7 +320,7 @@ set_strings() {
             L_NAME_PROMPT="新资料库的名称 :"
             L_NAME_TITLE="DigiKam - 新建资料库"
             L_FOLDER_PROMPT="请选择资料库文件夹 :"
-            L_FILE_PROMPT="请选择 DigiKam .photoslibrary :"
+            L_FILE_PROMPT="请选择 DigiKam .digikamlibrary :"
             L_CONFIRM_MSG="创建资料库？"
             L_CONFIRM_TITLE="DigiKam - 确认"
             L_BTN_CANCEL="取消"
@@ -335,7 +338,7 @@ set_strings() {
             L_TEXT_PATH="资料库的完整路径 :"
             ;;
         ko)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="활성 라이브러리"
             L_CHOOSE="라이브러리를 선택하세요 :"
             L_OTHER="다른 위치..."
@@ -344,7 +347,7 @@ set_strings() {
             L_NAME_PROMPT="새 라이브러리 이름 :"
             L_NAME_TITLE="DigiKam - 새 라이브러리"
             L_FOLDER_PROMPT="라이브러리 폴더를 선택하세요 :"
-            L_FILE_PROMPT="DigiKam .photoslibrary를 선택하세요 :"
+            L_FILE_PROMPT="DigiKam .digikamlibrary를 선택하세요 :"
             L_CONFIRM_MSG="라이브러리를 생성하시겠습니까?"
             L_CONFIRM_TITLE="DigiKam - 확인"
             L_BTN_CANCEL="취소"
@@ -362,7 +365,7 @@ set_strings() {
             L_TEXT_PATH="라이브러리 전체 경로 :"
             ;;
         *)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Active library"
             L_CHOOSE="Choose a library :"
             L_OTHER="Other location..."
@@ -371,7 +374,7 @@ set_strings() {
             L_NAME_PROMPT="Name of the new library :"
             L_NAME_TITLE="DigiKam - New library"
             L_FOLDER_PROMPT="Choose a folder for the library :"
-            L_FILE_PROMPT="Choose a DigiKam .photoslibrary :"
+            L_FILE_PROMPT="Choose a DigiKam .digikamlibrary :"
             L_CONFIRM_MSG="Create the library?"
             L_CONFIRM_TITLE="DigiKam - Confirmation"
             L_BTN_CANCEL="Cancel"
@@ -441,8 +444,8 @@ ui_choose_folder() {
 ui_choose_file() {
     local prompt="$1"
     case "$UI" in
-        kdialog) kdialog --getopenfilename "$HOME" "*.photoslibrary" --title "$prompt" ;;
-        zenity)  zenity --file-selection --title="$prompt" --file-filter="*.photoslibrary" ;;
+        kdialog) kdialog --getopenfilename "$HOME" "*.digikamlibrary" --title "$prompt" ;;
+        zenity)  zenity --file-selection --title="$prompt" --file-filter="*.digikamlibrary" ;;
         text)    read -rp "$prompt " val; echo "$val" ;;
     esac
 }
@@ -512,7 +515,7 @@ get_active_library() {
 
 # ── Extraire le nom court ──────────────────────────────────────────────────────
 library_name() {
-    basename "$1" .photoslibrary
+    basename "$1" .digikamlibrary
 }
 
 # ── Lister les bibliothèques DigiKam disponibles ──────────────────────────────
@@ -522,7 +525,7 @@ list_libraries() {
         [ -d "$dir" ] || continue
         while IFS= read -r -d '' lib; do
             [ -f "$lib/digikam4.db" ] && echo "$lib"
-        done < <(find "$dir" -maxdepth 2 -name "*.photoslibrary" -print0 2>/dev/null)
+        done < <(find "$dir" -maxdepth 2 -name "*.digikamlibrary" -print0 2>/dev/null)
     done | sort -u
 }
 
@@ -556,26 +559,106 @@ create_library() {
 
     unzip -q "$TEMPLATE_ZIP" -d "$tmp_dir"
 
-    if [ ! -d "$tmp_dir/Digikam.photoslibrary" ]; then
+    if [ ! -d "$tmp_dir/Digikam.digikamlibrary" ]; then
         ui_error "$L_ERR_UNZIP"
         rm -rf "$tmp_dir"
         exit 1
     fi
 
-    mv "$tmp_dir/Digikam.photoslibrary" "$tmp_dir/$lib_name.photoslibrary"
-    mv "$tmp_dir/$lib_name.photoslibrary" "$lib_parent/"
+    mv "$tmp_dir/Digikam.digikamlibrary" "$tmp_dir/$lib_name.digikamlibrary"
+    mv "$tmp_dir/$lib_name.digikamlibrary" "$lib_parent/"
     rm -rf "$tmp_dir"
 
     cp "$DIGIKAMRC" "$lib_path/digikamrc.template" 2>/dev/null
     update_digikamrc "$lib_path"
 }
 
+# ── Résolution de la commande DigiKam ─────────────────────────────────────────
+# DigiKam s'installe de plusieurs façons sous Linux : paquet natif, Flatpak,
+# Snap, ou AppImage. Aucune ne garantit un binaire nommé « digikam » dans le
+# PATH (l'AppImage est le mode par défaut du projet et n'y figure jamais). On
+# résout donc la commande de lancement à l'exécution au lieu de la coder en dur.
+resolve_digikam() {
+    # 1. Binaire dans le PATH : paquet natif, wrapper Snap, ou lien manuel.
+    if command -v digikam &>/dev/null; then
+        DIGIKAM_CMD=(digikam)
+        return 0
+    fi
+
+    # 2. Flatpak.
+    if command -v flatpak &>/dev/null && flatpak info org.kde.digikam &>/dev/null; then
+        DIGIKAM_CMD=(flatpak run org.kde.digikam)
+        return 0
+    fi
+
+    # 3. Snap sans wrapper dans le PATH.
+    if command -v snap &>/dev/null && snap list digikam &>/dev/null; then
+        DIGIKAM_CMD=(snap run digikam)
+        return 0
+    fi
+
+    # 4. Fichier .desktop : AppImage intégré au menu, ou toute autre intégration.
+    #    On lit la ligne Exec= et on n'en garde que l'exécutable, pas les
+    #    arguments d'intégration (digikam se lance sans). Un chemin cité peut
+    #    contenir des espaces : la branche guillemets le préserve. Le cas
+    #    multi-mots (flatpak run ...) n'a pas à être traité ici, Flatpak et Snap
+    #    étant déjà résolus aux étapes 2 et 3.
+    local dir desktop exec_line first
+    for dir in "$HOME/.local/share/applications" \
+               "/usr/share/applications"; do
+        for desktop in "$dir/org.kde.digikam.desktop" "$dir/digikam.desktop"; do
+            [ -f "$desktop" ] || continue
+            exec_line=$(grep -m1 '^Exec=' "$desktop" | sed 's/^Exec=//')
+            [ -z "$exec_line" ] && continue
+            if [[ "$exec_line" =~ ^\"([^\"]*)\" ]]; then
+                DIGIKAM_CMD=("${BASH_REMATCH[1]}")
+            else
+                read -r first _ <<< "$exec_line"
+                DIGIKAM_CMD=("$first")
+            fi
+            [ -n "${DIGIKAM_CMD[0]}" ] && return 0
+        done
+    done
+
+    return 1
+}
+
+# Message « DigiKam introuvable » regroupé ici plutôt que dispersé dans les
+# quatorze blocs de langue.
+digikam_notfound_msg() {
+    case "$LANG_CODE" in
+        fr) echo "DigiKam est introuvable. Installez-le (paquet, Flatpak, Snap) ou intégrez son AppImage au menu des applications." ;;
+        es) echo "No se encuentra DigiKam. Instálelo (paquete, Flatpak, Snap) o integre su AppImage en el menú de aplicaciones." ;;
+        it) echo "DigiKam non è stato trovato. Installalo (pacchetto, Flatpak, Snap) o integra la sua AppImage nel menu delle applicazioni." ;;
+        de) echo "DigiKam wurde nicht gefunden. Installieren Sie es (Paket, Flatpak, Snap) oder integrieren Sie das AppImage ins Anwendungsmenü." ;;
+        pt) echo "DigiKam não foi encontrado. Instale-o (pacote, Flatpak, Snap) ou integre a sua AppImage no menu de aplicações." ;;
+        nl) echo "DigiKam is niet gevonden. Installeer het (pakket, Flatpak, Snap) of voeg de AppImage toe aan het toepassingenmenu." ;;
+        pl) echo "Nie znaleziono programu DigiKam. Zainstaluj go (pakiet, Flatpak, Snap) lub dodaj jego AppImage do menu aplikacji." ;;
+        uk) echo "DigiKam не знайдено. Установіть його (пакунок, Flatpak, Snap) або додайте його AppImage до меню програм." ;;
+        ru) echo "DigiKam не найден. Установите его (пакет, Flatpak, Snap) или добавьте его AppImage в меню приложений." ;;
+        ja) echo "DigiKam が見つかりません。インストールする（パッケージ、Flatpak、Snap）か、AppImage をアプリケーションメニューに登録してください。" ;;
+        zh) echo "未找到 DigiKam。请安装（软件包、Flatpak、Snap）或将其 AppImage 集成到应用程序菜单中。" ;;
+        ko) echo "DigiKam을 찾을 수 없습니다. 설치하거나(패키지, Flatpak, Snap) AppImage를 응용 프로그램 메뉴에 등록하세요." ;;
+        *)  echo "DigiKam was not found. Install it (package, Flatpak, Snap) or add its AppImage to the applications menu." ;;
+    esac
+}
+
+# Lance DigiKam avec la commande résolue.
+launch_digikam() {
+    "${DIGIKAM_CMD[@]}" &
+}
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 main() {
     UI=$(detect_ui)
-    local lang
-    lang=$(detect_lang)
-    set_strings "$lang"
+    LANG_CODE=$(detect_lang)
+    set_strings "$LANG_CODE"
+
+    # DigiKam doit etre joignable pour que l'application ait un sens.
+    if ! resolve_digikam; then
+        ui_error "$(digikam_notfound_msg)"
+        exit 1
+    fi
 
     local active active_name
     active=$(get_active_library)
@@ -624,7 +707,7 @@ main() {
         local other_name
         other_name=$(library_name "$other_location")
         ui_notify "$L_NOTIF_ACTIVATED : $other_name"
-        $DIGIKAM_BIN &
+        launch_digikam
         exit 0
 
     # ── Nouvelle bibliothèque ────────────────────────────────────────────────
@@ -639,7 +722,7 @@ main() {
         [ -z "$lib_location" ] && exit 0
 
         lib_location="${lib_location%/}"
-        local full_path="$lib_location/$lib_name.photoslibrary"
+        local full_path="$lib_location/$lib_name.digikamlibrary"
 
         if [ -f "$full_path/digikam4.db" ]; then
             ui_warning "$L_ERR_EXISTS"
@@ -671,7 +754,7 @@ main() {
 
         if [ "$chosen_path" = "$active" ] || [ "$chosen_path/" = "$active" ]; then
             ui_notify "$chosen_name $L_NOTIF_ALREADY"
-            $DIGIKAM_BIN &
+            launch_digikam
             exit 0
         fi
 
@@ -679,7 +762,7 @@ main() {
         ui_notify "$L_NOTIF_ACTIVATED : $chosen_name"
     fi
 
-    $DIGIKAM_BIN &
+    launch_digikam
 }
 
 main
