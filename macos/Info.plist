@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Digikam Switch</string>
+	<key>CFBundleExecutable</key>
+	<string>Digikam Switch</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.aymeric.DigikamSwitch</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Digikam Switch</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>11.0</string>
+	<key>LSUIElement</key>
+	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 Aymeric GILLAIZEAU</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+
+	<!-- Déclarer le type .digikamlibrary comme paquet macOS -->
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>org.digikam.library</string>
+			<key>UTTypeDescription</key>
+			<string>DigiKam Library</string>
+			<key>UTTypeIconFile</key>
+			<string>DigiKamLibrary</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>digikamlibrary</string>
+			</dict>
+		</dict>
+	</array>
+
+	<!-- Associer l'ouverture des .digikamlibrary à DigiKam Switch -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>DigiKam Library</string>
+			<key>CFBundleTypeIconFile</key>
+			<string>DigiKamLibrary</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.digikam.library</string>
+			</array>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>digikamlibrary</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+		</dict>
+	</array>
+
+</dict>
+</plist>

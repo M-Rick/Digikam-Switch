@@ -24,7 +24,7 @@ set_strings() {
     local lang="$1"
     case "$lang" in
         fr)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Bibliothèque active"
             L_CHOOSE="Choisissez une bibliothèque :"
             L_OTHER="Autre emplacement..."
@@ -33,7 +33,7 @@ set_strings() {
             L_NAME_PROMPT="Nom de la nouvelle bibliothèque :"
             L_NAME_TITLE="DigiKam - Nouvelle bibliothèque"
             L_FOLDER_PROMPT="Choisissez un dossier pour la bibliothèque :"
-            L_FILE_PROMPT="Choisissez un .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Choisissez un .digikamlibrary DigiKam :"
             L_CONFIRM_PREFIX="Créer la bibliothèque :"
             L_CONFIRM_TITLE="DigiKam - Confirmation"
             L_BTN_CANCEL="Annuler"
@@ -48,7 +48,7 @@ set_strings() {
             L_ERR_INVALID="Ce fichier ne contient pas de bibliothèque DigiKam valide."
             ;;
         es)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Biblioteca activa"
             L_CHOOSE="Elija una biblioteca :"
             L_OTHER="Otra ubicación..."
@@ -57,7 +57,7 @@ set_strings() {
             L_NAME_PROMPT="Nombre de la nueva biblioteca :"
             L_NAME_TITLE="DigiKam - Nueva biblioteca"
             L_FOLDER_PROMPT="Elija una carpeta para la biblioteca :"
-            L_FILE_PROMPT="Elija un .photoslibrary de DigiKam :"
+            L_FILE_PROMPT="Elija un .digikamlibrary de DigiKam :"
             L_CONFIRM_PREFIX="Crear la biblioteca :"
             L_CONFIRM_TITLE="DigiKam - Confirmación"
             L_BTN_CANCEL="Cancelar"
@@ -72,7 +72,7 @@ set_strings() {
             L_ERR_INVALID="Este archivo no contiene una biblioteca DigiKam válida."
             ;;
         it)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Libreria attiva"
             L_CHOOSE="Scegli una libreria :"
             L_OTHER="Altra posizione..."
@@ -81,7 +81,7 @@ set_strings() {
             L_NAME_PROMPT="Nome della nuova libreria :"
             L_NAME_TITLE="DigiKam - Nuova libreria"
             L_FOLDER_PROMPT="Scegli una cartella per la libreria :"
-            L_FILE_PROMPT="Scegli un .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Scegli un .digikamlibrary DigiKam :"
             L_CONFIRM_PREFIX="Creare la libreria :"
             L_CONFIRM_TITLE="DigiKam - Conferma"
             L_BTN_CANCEL="Annulla"
@@ -96,7 +96,7 @@ set_strings() {
             L_ERR_INVALID="Questo file non contiene una libreria DigiKam valida."
             ;;
         de)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Aktive Bibliothek"
             L_CHOOSE="Wählen Sie eine Bibliothek :"
             L_OTHER="Anderer Speicherort..."
@@ -105,7 +105,7 @@ set_strings() {
             L_NAME_PROMPT="Name der neuen Bibliothek :"
             L_NAME_TITLE="DigiKam - Neue Bibliothek"
             L_FOLDER_PROMPT="Wählen Sie einen Ordner für die Bibliothek :"
-            L_FILE_PROMPT="Wählen Sie ein DigiKam .photoslibrary :"
+            L_FILE_PROMPT="Wählen Sie ein DigiKam .digikamlibrary :"
             L_CONFIRM_PREFIX="Bibliothek erstellen :"
             L_CONFIRM_TITLE="DigiKam - Bestätigung"
             L_BTN_CANCEL="Abbrechen"
@@ -120,7 +120,7 @@ set_strings() {
             L_ERR_INVALID="Diese Datei enthält keine gültige DigiKam-Bibliothek."
             ;;
         pt)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Biblioteca ativa"
             L_CHOOSE="Escolha uma biblioteca :"
             L_OTHER="Outro local..."
@@ -129,7 +129,7 @@ set_strings() {
             L_NAME_PROMPT="Nome da nova biblioteca :"
             L_NAME_TITLE="DigiKam - Nova biblioteca"
             L_FOLDER_PROMPT="Escolha uma pasta para a biblioteca :"
-            L_FILE_PROMPT="Escolha um .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Escolha um .digikamlibrary DigiKam :"
             L_CONFIRM_PREFIX="Criar a biblioteca :"
             L_CONFIRM_TITLE="DigiKam - Confirmação"
             L_BTN_CANCEL="Cancelar"
@@ -144,7 +144,7 @@ set_strings() {
             L_ERR_INVALID="Este ficheiro não contém uma biblioteca DigiKam válida."
             ;;
         nl)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Actieve bibliotheek"
             L_CHOOSE="Kies een bibliotheek :"
             L_OTHER="Andere locatie..."
@@ -153,7 +153,7 @@ set_strings() {
             L_NAME_PROMPT="Naam van de nieuwe bibliotheek :"
             L_NAME_TITLE="DigiKam - Nieuwe bibliotheek"
             L_FOLDER_PROMPT="Kies een map voor de bibliotheek :"
-            L_FILE_PROMPT="Kies een DigiKam .photoslibrary :"
+            L_FILE_PROMPT="Kies een DigiKam .digikamlibrary :"
             L_CONFIRM_PREFIX="Bibliotheek aanmaken :"
             L_CONFIRM_TITLE="DigiKam - Bevestiging"
             L_BTN_CANCEL="Annuleren"
@@ -168,7 +168,7 @@ set_strings() {
             L_ERR_INVALID="Dit bestand bevat geen geldige DigiKam-bibliotheek."
             ;;
         pl)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Aktywna biblioteka"
             L_CHOOSE="Wybierz bibliotekę :"
             L_OTHER="Inna lokalizacja..."
@@ -177,7 +177,7 @@ set_strings() {
             L_NAME_PROMPT="Nazwa nowej biblioteki :"
             L_NAME_TITLE="DigiKam - Nowa biblioteka"
             L_FOLDER_PROMPT="Wybierz folder dla biblioteki :"
-            L_FILE_PROMPT="Wybierz plik .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Wybierz plik .digikamlibrary DigiKam :"
             L_CONFIRM_PREFIX="Utwórz bibliotekę :"
             L_CONFIRM_TITLE="DigiKam - Potwierdzenie"
             L_BTN_CANCEL="Anuluj"
@@ -192,7 +192,7 @@ set_strings() {
             L_ERR_INVALID="Ten plik nie zawiera prawidłowej biblioteki DigiKam."
             ;;
         uk)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Активна бібліотека"
             L_CHOOSE="Виберіть бібліотеку :"
             L_OTHER="Інше місце..."
@@ -201,7 +201,7 @@ set_strings() {
             L_NAME_PROMPT="Назва нової бібліотеки :"
             L_NAME_TITLE="DigiKam - Нова бібліотека"
             L_FOLDER_PROMPT="Виберіть папку для бібліотеки :"
-            L_FILE_PROMPT="Виберіть .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Виберіть .digikamlibrary DigiKam :"
             L_CONFIRM_PREFIX="Створити бібліотеку :"
             L_CONFIRM_TITLE="DigiKam - Підтвердження"
             L_BTN_CANCEL="Скасувати"
@@ -216,7 +216,7 @@ set_strings() {
             L_ERR_INVALID="Цей файл не містить дійсної бібліотеки DigiKam."
             ;;
         ru)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Активная библиотека"
             L_CHOOSE="Выберите библиотеку :"
             L_OTHER="Другое расположение..."
@@ -225,7 +225,7 @@ set_strings() {
             L_NAME_PROMPT="Название новой библиотеки :"
             L_NAME_TITLE="DigiKam - Новая библиотека"
             L_FOLDER_PROMPT="Выберите папку для библиотеки :"
-            L_FILE_PROMPT="Выберите .photoslibrary DigiKam :"
+            L_FILE_PROMPT="Выберите .digikamlibrary DigiKam :"
             L_CONFIRM_PREFIX="Создать библиотеку :"
             L_CONFIRM_TITLE="DigiKam - Подтверждение"
             L_BTN_CANCEL="Отмена"
@@ -240,7 +240,7 @@ set_strings() {
             L_ERR_INVALID="Этот файл не содержит допустимой библиотеки DigiKam."
             ;;
         ja)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="アクティブなライブラリ"
             L_CHOOSE="ライブラリを選択してください :"
             L_OTHER="他の場所..."
@@ -249,7 +249,7 @@ set_strings() {
             L_NAME_PROMPT="新しいライブラリの名前 :"
             L_NAME_TITLE="DigiKam - 新しいライブラリ"
             L_FOLDER_PROMPT="ライブラリ用のフォルダを選択してください :"
-            L_FILE_PROMPT="DigiKam の .photoslibrary を選択してください :"
+            L_FILE_PROMPT="DigiKam の .digikamlibrary を選択してください :"
             L_CONFIRM_PREFIX="ライブラリを作成 :"
             L_CONFIRM_TITLE="DigiKam - 確認"
             L_BTN_CANCEL="キャンセル"
@@ -265,7 +265,7 @@ set_strings() {
             ;;
         zh)
             # zh-Hans (simplifié) par défaut
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="当前资料库"
             L_CHOOSE="请选择一个资料库 :"
             L_OTHER="其他位置..."
@@ -274,7 +274,7 @@ set_strings() {
             L_NAME_PROMPT="新资料库的名称 :"
             L_NAME_TITLE="DigiKam - 新建资料库"
             L_FOLDER_PROMPT="请选择资料库文件夹 :"
-            L_FILE_PROMPT="请选择 DigiKam .photoslibrary :"
+            L_FILE_PROMPT="请选择 DigiKam .digikamlibrary :"
             L_CONFIRM_PREFIX="创建资料库 :"
             L_CONFIRM_TITLE="DigiKam - 确认"
             L_BTN_CANCEL="取消"
@@ -289,7 +289,7 @@ set_strings() {
             L_ERR_INVALID="此文件不包含有效的 DigiKam 资料库。"
             ;;
         ko)
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="활성 라이브러리"
             L_CHOOSE="라이브러리를 선택하세요 :"
             L_OTHER="다른 위치..."
@@ -298,7 +298,7 @@ set_strings() {
             L_NAME_PROMPT="새 라이브러리 이름 :"
             L_NAME_TITLE="DigiKam - 새 라이브러리"
             L_FOLDER_PROMPT="라이브러리 폴더를 선택하세요 :"
-            L_FILE_PROMPT="DigiKam .photoslibrary를 선택하세요 :"
+            L_FILE_PROMPT="DigiKam .digikamlibrary를 선택하세요 :"
             L_CONFIRM_PREFIX="라이브러리 생성 :"
             L_CONFIRM_TITLE="DigiKam - 확인"
             L_BTN_CANCEL="취소"
@@ -314,7 +314,7 @@ set_strings() {
             ;;
         *)
             # Anglais par défaut
-            L_TITLE="DigiKam"
+            L_TITLE="DigiKam Switch"
             L_ACTIVE="Active library"
             L_CHOOSE="Choose a library :"
             L_OTHER="Other location..."
@@ -323,7 +323,7 @@ set_strings() {
             L_NAME_PROMPT="Name of the new library :"
             L_NAME_TITLE="DigiKam - New library"
             L_FOLDER_PROMPT="Choose a folder for the library :"
-            L_FILE_PROMPT="Choose a DigiKam .photoslibrary :"
+            L_FILE_PROMPT="Choose a DigiKam .digikamlibrary :"
             L_CONFIRM_PREFIX="Create library :"
             L_CONFIRM_TITLE="DigiKam - Confirmation"
             L_BTN_CANCEL="Cancel"
@@ -347,9 +347,9 @@ get_active_library() {
         | sed 's|/$||'
 }
 
-# ── Extraire le nom court d'un chemin .photoslibrary ──────────────────────────
+# ── Extraire le nom court d'un chemin .digikamlibrary ──────────────────────────
 library_name() {
-    basename "$1" .photoslibrary
+    basename "$1" .digikamlibrary
 }
 
 # ── Lister les bibliothèques DigiKam disponibles ──────────────────────────────
@@ -359,7 +359,7 @@ list_libraries() {
         [ -d "$dir" ] || continue
         while IFS= read -r -d '' lib; do
             [ -f "$lib/digikam4.db" ] && echo "$lib"
-        done < <(find "$dir" -maxdepth 2 -name "*.photoslibrary" -print0 2>/dev/null)
+        done < <(find "$dir" -maxdepth 2 -name "*.digikamlibrary" -print0 2>/dev/null)
     done | sort -u
 }
 
@@ -393,14 +393,14 @@ create_library() {
 
     unzip -q "$TEMPLATE_ZIP" -d "$tmp_dir"
 
-    if [ ! -d "$tmp_dir/Digikam.photoslibrary" ]; then
+    if [ ! -d "$tmp_dir/Digikam.digikamlibrary" ]; then
         osascript -e "display alert \"$L_TITLE\" message \"$L_ERR_UNZIP\" as critical"
         rm -rf "$tmp_dir"
         exit 1
     fi
 
-    mv "$tmp_dir/Digikam.photoslibrary" "$tmp_dir/$lib_name.photoslibrary"
-    mv "$tmp_dir/$lib_name.photoslibrary" "$lib_parent/"
+    mv "$tmp_dir/Digikam.digikamlibrary" "$tmp_dir/$lib_name.digikamlibrary"
+    mv "$tmp_dir/$lib_name.digikamlibrary" "$lib_parent/"
     rm -rf "$tmp_dir"
 
     cp "$DIGIKAMRC" "$lib_path/digikamrc.template" 2>/dev/null
@@ -518,7 +518,7 @@ EOF
         [ -z "$lib_location" ] && exit 0
 
         lib_location="${lib_location%/}"
-        local full_path="$lib_location/$lib_name.photoslibrary"
+        local full_path="$lib_location/$lib_name.digikamlibrary"
 
         if [ -f "$full_path/digikam4.db" ]; then
             osascript -e "display alert \"$L_TITLE\" message \"$L_ERR_EXISTS\" as warning"
