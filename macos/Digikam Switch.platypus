@@ -31,7 +31,7 @@
 	<key>IconPath</key>
 	<string>/digikam-switch/icons/PlatypusIcon-52290.icns</string>
 	<key>Identifier</key>
-	<string>org.aymeric.DigikamSwitch</string>
+	<string>org.M-Rick.DigikamSwitch</string>
 	<key>InterfaceType</key>
 	<string>None</string>
 	<key>InterpreterArgs</key>
