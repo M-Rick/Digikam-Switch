@@ -182,6 +182,4 @@ zip digikam_template.zip Digikam.digikamlibrary/*.db
 
 GPL v3 — in the spirit of the DigiKam project.
 
-## Author
 
-Aymeric Gillaizeau — [OpenStreetMap M-Rick](https://www.openstreetmap.org/user/M-Rick)
