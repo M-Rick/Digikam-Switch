@@ -24,7 +24,7 @@ set_strings() {
     local lang="$1"
     case "$lang" in
         fr)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Bibliothèque active"
             L_CHOOSE="Choisissez une bibliothèque :"
             L_OTHER="Autre emplacement..."
@@ -44,11 +44,13 @@ set_strings() {
             L_NOTIF_ALREADY="est déjà la bibliothèque active."
             L_ERR_TEMPLATE="Fichier template introuvable :"
             L_ERR_UNZIP="Erreur lors de la décompression du template."
+            L_RUNNING="DigiKam est en cours d'exécution. En se fermant, il réécrira sa configuration et annulera le changement de bibliothèque. Fermer DigiKam, puis continuer ?"
+            L_ERR_COLLECTION="Impossible de déclarer la collection dans la nouvelle bibliothèque. Ajoutez-la depuis DigiKam : Configurer DigiKam, Collections."
             L_ERR_EXISTS="Une bibliothèque existe déjà à cet emplacement."
             L_ERR_INVALID="Ce fichier ne contient pas de bibliothèque DigiKam valide."
             ;;
         es)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Biblioteca activa"
             L_CHOOSE="Elija una biblioteca :"
             L_OTHER="Otra ubicación..."
@@ -68,11 +70,13 @@ set_strings() {
             L_NOTIF_ALREADY="ya es la biblioteca activa."
             L_ERR_TEMPLATE="Archivo de plantilla no encontrado :"
             L_ERR_UNZIP="Error al descomprimir la plantilla."
+            L_RUNNING="DigiKam se está ejecutando. Al cerrarse reescribirá su configuración y anulará el cambio de biblioteca. ¿Cerrar DigiKam y continuar?"
+            L_ERR_COLLECTION="No se pudo declarar la colección en la nueva biblioteca. Añádala desde DigiKam: Configurar DigiKam, Colecciones."
             L_ERR_EXISTS="Ya existe una biblioteca en esta ubicación."
             L_ERR_INVALID="Este archivo no contiene una biblioteca DigiKam válida."
             ;;
         it)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Libreria attiva"
             L_CHOOSE="Scegli una libreria :"
             L_OTHER="Altra posizione..."
@@ -92,11 +96,13 @@ set_strings() {
             L_NOTIF_ALREADY="è già la libreria attiva."
             L_ERR_TEMPLATE="File modello non trovato :"
             L_ERR_UNZIP="Errore durante la decompressione del modello."
+            L_RUNNING="DigiKam è in esecuzione. Alla chiusura riscriverà la configurazione annullando il cambio di libreria. Chiudere DigiKam e continuare?"
+            L_ERR_COLLECTION="Impossibile dichiarare la raccolta nella nuova libreria. Aggiungila da DigiKam: Configura DigiKam, Raccolte."
             L_ERR_EXISTS="Esiste già una libreria in questa posizione."
             L_ERR_INVALID="Questo file non contiene una libreria DigiKam valida."
             ;;
         de)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Aktive Bibliothek"
             L_CHOOSE="Wählen Sie eine Bibliothek :"
             L_OTHER="Anderer Speicherort..."
@@ -116,11 +122,13 @@ set_strings() {
             L_NOTIF_ALREADY="ist bereits die aktive Bibliothek."
             L_ERR_TEMPLATE="Vorlagendatei nicht gefunden :"
             L_ERR_UNZIP="Fehler beim Entpacken der Vorlage."
+            L_RUNNING="DigiKam läuft bereits. Beim Beenden überschreibt es seine Konfiguration und macht den Bibliothekswechsel rückgängig. DigiKam schließen und fortfahren?"
+            L_ERR_COLLECTION="Die Sammlung konnte in der neuen Bibliothek nicht angelegt werden. Fügen Sie sie in DigiKam hinzu: DigiKam einrichten, Sammlungen."
             L_ERR_EXISTS="An diesem Speicherort existiert bereits eine Bibliothek."
             L_ERR_INVALID="Diese Datei enthält keine gültige DigiKam-Bibliothek."
             ;;
         pt)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Biblioteca ativa"
             L_CHOOSE="Escolha uma biblioteca :"
             L_OTHER="Outro local..."
@@ -140,11 +148,13 @@ set_strings() {
             L_NOTIF_ALREADY="já é a biblioteca ativa."
             L_ERR_TEMPLATE="Ficheiro de modelo não encontrado :"
             L_ERR_UNZIP="Erro ao descompactar o modelo."
+            L_RUNNING="O DigiKam está em execução. Ao fechar, reescreverá a configuração e anulará a mudança de biblioteca. Fechar o DigiKam e continuar?"
+            L_ERR_COLLECTION="Não foi possível declarar a coleção na nova biblioteca. Adicione-a no DigiKam: Configurar DigiKam, Coleções."
             L_ERR_EXISTS="Já existe uma biblioteca neste local."
             L_ERR_INVALID="Este ficheiro não contém uma biblioteca DigiKam válida."
             ;;
         nl)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Actieve bibliotheek"
             L_CHOOSE="Kies een bibliotheek :"
             L_OTHER="Andere locatie..."
@@ -164,11 +174,13 @@ set_strings() {
             L_NOTIF_ALREADY="is al de actieve bibliotheek."
             L_ERR_TEMPLATE="Sjabloonbestand niet gevonden :"
             L_ERR_UNZIP="Fout bij het uitpakken van het sjabloon."
+            L_RUNNING="DigiKam is actief. Bij het afsluiten overschrijft het zijn configuratie en maakt de bibliotheekwissel ongedaan. DigiKam sluiten en doorgaan?"
+            L_ERR_COLLECTION="Kan de verzameling niet aanmaken in de nieuwe bibliotheek. Voeg deze toe in DigiKam: DigiKam instellen, Verzamelingen."
             L_ERR_EXISTS="Er bestaat al een bibliotheek op deze locatie."
             L_ERR_INVALID="Dit bestand bevat geen geldige DigiKam-bibliotheek."
             ;;
         pl)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Aktywna biblioteka"
             L_CHOOSE="Wybierz bibliotekę :"
             L_OTHER="Inna lokalizacja..."
@@ -188,11 +200,13 @@ set_strings() {
             L_NOTIF_ALREADY="jest już aktywną biblioteką."
             L_ERR_TEMPLATE="Plik szablonu nie znaleziony :"
             L_ERR_UNZIP="Błąd podczas rozpakowywania szablonu."
+            L_RUNNING="DigiKam jest uruchomiony. Przy zamykaniu nadpisze konfigurację i cofnie zmianę biblioteki. Zamknąć DigiKam i kontynuować?"
+            L_ERR_COLLECTION="Nie można utworzyć kolekcji w nowej bibliotece. Dodaj ją w DigiKam: Ustawienia DigiKam, Kolekcje."
             L_ERR_EXISTS="Biblioteka już istnieje w tej lokalizacji."
             L_ERR_INVALID="Ten plik nie zawiera prawidłowej biblioteki DigiKam."
             ;;
         uk)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Активна бібліотека"
             L_CHOOSE="Виберіть бібліотеку :"
             L_OTHER="Інше місце..."
@@ -212,11 +226,13 @@ set_strings() {
             L_NOTIF_ALREADY="вже є активною бібліотекою."
             L_ERR_TEMPLATE="Файл шаблону не знайдено :"
             L_ERR_UNZIP="Помилка розпакування шаблону."
+            L_RUNNING="DigiKam запущено. Під час закриття він перезапише конфігурацію і скасує зміну бібліотеки. Закрити DigiKam і продовжити?"
+            L_ERR_COLLECTION="Не вдалося створити колекцію в новій бібліотеці. Додайте її в DigiKam: Налаштувати DigiKam, Колекції."
             L_ERR_EXISTS="Бібліотека вже існує в цьому місці."
             L_ERR_INVALID="Цей файл не містить дійсної бібліотеки DigiKam."
             ;;
         ru)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Активная библиотека"
             L_CHOOSE="Выберите библиотеку :"
             L_OTHER="Другое расположение..."
@@ -236,11 +252,13 @@ set_strings() {
             L_NOTIF_ALREADY="уже является активной библиотекой."
             L_ERR_TEMPLATE="Файл шаблона не найден :"
             L_ERR_UNZIP="Ошибка при распаковке шаблона."
+            L_RUNNING="DigiKam запущен. При закрытии он перезапишет конфигурацию и отменит смену библиотеки. Закрыть DigiKam и продолжить?"
+            L_ERR_COLLECTION="Не удалось создать коллекцию в новой библиотеке. Добавьте её в DigiKam: Настроить DigiKam, Коллекции."
             L_ERR_EXISTS="Библиотека уже существует в этом месте."
             L_ERR_INVALID="Этот файл не содержит допустимой библиотеки DigiKam."
             ;;
         ja)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="アクティブなライブラリ"
             L_CHOOSE="ライブラリを選択してください :"
             L_OTHER="他の場所..."
@@ -260,12 +278,14 @@ set_strings() {
             L_NOTIF_ALREADY="はすでにアクティブなライブラリです。"
             L_ERR_TEMPLATE="テンプレートファイルが見つかりません :"
             L_ERR_UNZIP="テンプレートの解凍中にエラーが発生しました。"
+            L_RUNNING="DigiKam が実行中です。終了時に設定が上書きされ、ライブラリの切り替えが取り消されます。DigiKam を閉じて続行しますか？"
+            L_ERR_COLLECTION="新しいライブラリにコレクションを登録できませんでした。DigiKam の設定からコレクションを追加してください。"
             L_ERR_EXISTS="この場所にはすでにライブラリが存在します。"
             L_ERR_INVALID="このファイルには有効な DigiKam ライブラリが含まれていません。"
             ;;
         zh)
             # zh-Hans (simplifié) par défaut
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="当前资料库"
             L_CHOOSE="请选择一个资料库 :"
             L_OTHER="其他位置..."
@@ -285,11 +305,13 @@ set_strings() {
             L_NOTIF_ALREADY="已经是当前资料库。"
             L_ERR_TEMPLATE="找不到模板文件 :"
             L_ERR_UNZIP="解压模板时出错。"
+            L_RUNNING="DigiKam 正在运行。关闭时它会重写配置并撤销库切换。关闭 DigiKam 后继续吗？"
+            L_ERR_COLLECTION="无法在新库中创建收藏集。请在 DigiKam 的设置中添加收藏集。"
             L_ERR_EXISTS="此位置已存在资料库。"
             L_ERR_INVALID="此文件不包含有效的 DigiKam 资料库。"
             ;;
         ko)
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="활성 라이브러리"
             L_CHOOSE="라이브러리를 선택하세요 :"
             L_OTHER="다른 위치..."
@@ -309,12 +331,14 @@ set_strings() {
             L_NOTIF_ALREADY="은(는) 이미 활성 라이브러리입니다."
             L_ERR_TEMPLATE="템플릿 파일을 찾을 수 없습니다 :"
             L_ERR_UNZIP="템플릿 압축 해제 중 오류가 발생했습니다."
+            L_RUNNING="DigiKam이 실행 중입니다. 종료할 때 설정을 덮어써서 라이브러리 전환이 취소됩니다. DigiKam을 닫고 계속할까요?"
+            L_ERR_COLLECTION="새 라이브러리에 컬렉션을 등록하지 못했습니다. DigiKam 설정에서 컬렉션을 추가하세요."
             L_ERR_EXISTS="이 위치에 이미 라이브러리가 존재합니다."
             L_ERR_INVALID="이 파일에는 유효한 DigiKam 라이브러리가 없습니다."
             ;;
         *)
             # Anglais par défaut
-            L_TITLE="DigiKam Switch"
+            L_TITLE="DigiKam"
             L_ACTIVE="Active library"
             L_CHOOSE="Choose a library :"
             L_OTHER="Other location..."
@@ -334,6 +358,8 @@ set_strings() {
             L_NOTIF_ALREADY="is already the active library."
             L_ERR_TEMPLATE="Template file not found :"
             L_ERR_UNZIP="Error while extracting template."
+            L_RUNNING="DigiKam is running. On exit it will rewrite its configuration and undo the library switch. Close DigiKam, then continue?"
+            L_ERR_COLLECTION="Could not declare the collection in the new library. Add it from DigiKam: Configure DigiKam, Collections."
             L_ERR_EXISTS="A library already exists at this location."
             L_ERR_INVALID="This file does not contain a valid DigiKam library."
             ;;
@@ -376,6 +402,40 @@ update_digikamrc() {
 }
 
 # ── Créer une nouvelle bibliothèque ───────────────────────────────────────────
+# ── DigiKam est-il deja lance ? ───────────────────────────────────────────────
+# Securite : en quittant, DigiKam reecrit digikamrc et annulerait la bascule.
+# On previent donc l utilisateur avant toute modification. Sur macOS le
+# processus s appelle digikam et vit dans digikam.app ; on exclut notre propre
+# PID pour ne pas se detecter soi-meme.
+digikam_running() {
+    local pids
+    pids=$( { pgrep -x digikam; pgrep -f 'digikam\.app'; } 2>/dev/null \
+            | grep -v "^$$\$" | sort -u )
+    [ -n "$pids" ]
+}
+
+# ── Collection racine de la bibliothèque ──────────────────────────────────────
+# Une base DigiKam neuve n'a aucune collection (table AlbumRoots vide) : DigiKam
+# s'ouvre alors sans racine d'album, et il devient impossible de créer un album
+# ou d'importer des images. On déclare donc la bibliothèque elle-même comme
+# collection. L'identifiant de type « path= » ne dépend pas du système de
+# fichiers : la bibliothèque reste utilisable si elle est déplacée.
+register_collection_root() {
+    local lib_path="${1%/}"
+    local db="$lib_path/digikam4.db"
+    local label
+    label=$(library_name "$lib_path")
+    [ -f "$db" ] || return 1
+
+    local esc_label esc_path
+    esc_label=$(printf '%s' "$label" | sed "s/'/''/g")
+    esc_path=$(printf '%s' "$lib_path" | sed "s/'/''/g")
+
+    /usr/bin/sqlite3 "$db" "INSERT OR IGNORE INTO AlbumRoots
+        (label, status, type, identifier, specificPath, caseSensitivity)
+        VALUES ('$esc_label', 0, 1, 'volumeid:?path=$esc_path', '/', 0);" 2>/dev/null
+}
+
 create_library() {
     local lib_path="$1"
     local lib_name
@@ -393,17 +453,31 @@ create_library() {
 
     unzip -q "$TEMPLATE_ZIP" -d "$tmp_dir"
 
-    if [ ! -d "$tmp_dir/Digikam.digikamlibrary" ]; then
+    # On ne suppose pas le nom du dossier contenu dans le template : il a changé
+    # avec l historique du projet (.photoslibrary puis .digikamlibrary) et peut
+    # changer encore si le template est régénéré. On repère le dossier extrait
+    # par la présence de digikam4.db, seul critère qui fasse foi.
+    local extracted
+    extracted=$(find "$tmp_dir" -maxdepth 2 -type f -name digikam4.db 2>/dev/null | head -1)
+    [ -n "$extracted" ] && extracted=$(dirname "$extracted")
+
+    if [ -z "$extracted" ] || [ ! -d "$extracted" ]; then
         osascript -e "display alert \"$L_TITLE\" message \"$L_ERR_UNZIP\" as critical"
         rm -rf "$tmp_dir"
         exit 1
     fi
 
-    mv "$tmp_dir/Digikam.digikamlibrary" "$tmp_dir/$lib_name.digikamlibrary"
+    mv "$extracted" "$tmp_dir/$lib_name.digikamlibrary"
     mv "$tmp_dir/$lib_name.digikamlibrary" "$lib_parent/"
     rm -rf "$tmp_dir"
 
     cp "$DIGIKAMRC" "$lib_path/digikamrc.template" 2>/dev/null
+
+    # Sans collection racine, DigiKam ne permet ni album ni import.
+    if ! register_collection_root "$lib_path"; then
+        osascript -e "display alert \"$L_TITLE\" message \"$L_ERR_COLLECTION\" as warning"
+    fi
+
     update_digikamrc "$lib_path"
 }
 
@@ -417,6 +491,14 @@ main() {
         zh) lang="zh" ;;
     esac
     set_strings "$lang"
+
+    # Securite : si DigiKam tourne, il ecrasera digikamrc en quittant et
+    # annulera la bascule. On demande confirmation avant de continuer.
+    if digikam_running; then
+        local rep
+        rep=$(osascript -e "button returned of (display dialog \"$L_RUNNING\" with title \"$L_TITLE\" buttons {\"$L_BTN_CANCEL\", \"$L_BTN_CONTINUE\"} default button \"$L_BTN_CONTINUE\")" 2>/dev/null)
+        [ "$rep" != "$L_BTN_CONTINUE" ] && exit 0
+    fi
 
     local active active_name
     active=$(get_active_library)
