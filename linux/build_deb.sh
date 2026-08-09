@@ -1,4 +1,11 @@
 #!/bin/bash
+# Ce script utilise des fonctionnalités propres à bash (tableaux, [[ ]],
+# pipefail). Lancé avec « sh script.sh », il tournerait sous dash et
+# échouerait : on se relance alors sous bash.
+if [ -z "${BASH_VERSION:-}" ]; then
+    exec bash "$0" "$@"
+fi
+
 set -e
 
 VERSION="1.0.0"
@@ -11,9 +18,10 @@ ICONS_DIR="$REPO_ROOT/icons"
 
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR/DEBIAN"
-mkdir -p "$BUILD_DIR/usr/local/bin"
-mkdir -p "$BUILD_DIR/usr/local/share/digikam-switch"
+mkdir -p "$BUILD_DIR/usr/bin"
+mkdir -p "$BUILD_DIR/usr/share/digikam-switch"
 mkdir -p "$BUILD_DIR/usr/share/applications"
+mkdir -p "$BUILD_DIR/usr/share/metainfo"
 mkdir -p "$BUILD_DIR/usr/share/mime/packages"
 mkdir -p "$BUILD_DIR/usr/share/icons/hicolor/scalable/apps"
 mkdir -p "$BUILD_DIR/usr/share/icons/hicolor/scalable/mimetypes"
@@ -27,7 +35,7 @@ Section: graphics
 Priority: optional
 Architecture: all
 Depends: bash, unzip, kdialog | zenity
-Recommends: kdialog | zenity
+Recommends: kdialog | zenity, sqlite3 | python3
 Maintainer: Aymeric Gillaizeau <aymeric@openstreetmap.org>
 Description: DigiKam multiple library manager
  DigiKam Switch allows managing multiple DigiKam photo libraries
@@ -46,7 +54,7 @@ CONTROL
 cat > "$BUILD_DIR/DEBIAN/postinst" << 'POSTINST'
 #!/bin/bash
 set -e
-chmod +x /usr/local/bin/digikam_switch_linux.sh
+chmod +x /usr/bin/digikam_switch_linux.sh
 if command -v update-mime-database &>/dev/null; then
     update-mime-database /usr/share/mime/ 2>/dev/null || true
 fi
@@ -105,15 +113,16 @@ License: GPL-3.0+
 COPYRIGHT
 
 # ── Fichiers principaux ────────────────────────────────────────────────────────
-cp "$SCRIPT_DIR/digikam_switch_linux.sh" "$BUILD_DIR/usr/local/bin/"
-chmod +x "$BUILD_DIR/usr/local/bin/digikam_switch_linux.sh"
+cp "$SCRIPT_DIR/digikam_switch_linux.sh" "$BUILD_DIR/usr/bin/"
+chmod +x "$BUILD_DIR/usr/bin/digikam_switch_linux.sh"
 
 cp "$SCRIPT_DIR/digikam-switch.desktop" "$BUILD_DIR/usr/share/applications/"
+cp "$SCRIPT_DIR/io.github.m_rick.digikam-switch.metainfo.xml" "$BUILD_DIR/usr/share/metainfo/"
 cp "$SCRIPT_DIR/org.digikam.library.xml" "$BUILD_DIR/usr/share/mime/packages/"
 
 # Template zip
 if [ -f "$REPO_ROOT/digikam_template.zip" ]; then
-    cp "$REPO_ROOT/digikam_template.zip" "$BUILD_DIR/usr/local/share/digikam-switch/"
+    cp "$REPO_ROOT/digikam_template.zip" "$BUILD_DIR/usr/share/digikam-switch/"
 else
     echo "Erreur : digikam_template.zip introuvable à la racine du repo."
     exit 1

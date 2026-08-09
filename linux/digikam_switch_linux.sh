@@ -5,12 +5,29 @@
 # Packager via un fichier .desktop
 # Dépendances optionnelles : kdialog (KDE), zenity (GNOME/GTK)
 
+# Ce script utilise des fonctionnalités propres à bash (tableaux, [[ ]],
+# pipefail). Lancé avec « sh script.sh », il tournerait sous dash et
+# échouerait : on se relance alors sous bash.
+if [ -z "${BASH_VERSION:-}" ]; then
+    exec bash "$0" "$@"
+fi
+
 DIGIKAMRC="$HOME/.config/digikamrc"
 # La commande de lancement de DigiKam est resolue a l'execution (resolve_digikam),
 # car selon l'installation (paquet, Flatpak, Snap, AppImage) il n'existe pas
 # forcement de binaire « digikam » dans le PATH.
 DIGIKAM_CMD=()
-TEMPLATE_ZIP="${TEMPLATE_ZIP:-$(dirname "$0")/digikam_template.zip}"
+# Emplacement du template : override explicite, sinon a cote du script (depot),
+# sinon repertoires d'installation (.deb: /usr/share, install.sh: /usr/local/share).
+if [ -z "${TEMPLATE_ZIP:-}" ]; then
+    for _cand in \
+        "$(dirname "$0")/digikam_template.zip" \
+        "/usr/share/digikam-switch/digikam_template.zip" \
+        "/usr/local/share/digikam-switch/digikam_template.zip"; do
+        [ -f "$_cand" ] && { TEMPLATE_ZIP="$_cand"; break; }
+    done
+    : "${TEMPLATE_ZIP:=$(dirname "$0")/digikam_template.zip}"
+fi
 
 # ── Détection de l'interface disponible ───────────────────────────────────────
 detect_ui() {
@@ -61,6 +78,8 @@ set_strings() {
             L_NOTIF_ALREADY="est déjà la bibliothèque active."
             L_ERR_TEMPLATE="Fichier template introuvable :"
             L_ERR_UNZIP="Erreur lors de la décompression du template."
+            L_ERR_COLLECTION="Impossible de déclarer la collection dans la nouvelle bibliothèque. Ajoutez-la depuis DigiKam : Configurer DigiKam, Collections."
+            L_RUNNING="DigiKam est en cours d'exécution. En se fermant, il réécrira sa configuration et annulera le changement de bibliothèque. Fermer DigiKam, puis continuer ?"
             L_ERR_EXISTS="Une bibliothèque existe déjà à cet emplacement."
             L_ERR_INVALID="Ce fichier ne contient pas de bibliothèque DigiKam valide."
             L_TEXT_SELECT="Entrez le numéro de votre choix :"
@@ -88,6 +107,8 @@ set_strings() {
             L_NOTIF_ALREADY="ya es la biblioteca activa."
             L_ERR_TEMPLATE="Archivo de plantilla no encontrado :"
             L_ERR_UNZIP="Error al descomprimir la plantilla."
+            L_ERR_COLLECTION="No se pudo declarar la colección en la nueva biblioteca. Añádala desde DigiKam: Configurar DigiKam, Colecciones."
+            L_RUNNING="DigiKam se está ejecutando. Al cerrarse reescribirá su configuración y anulará el cambio de biblioteca. ¿Cerrar DigiKam y continuar?"
             L_ERR_EXISTS="Ya existe una biblioteca en esta ubicación."
             L_ERR_INVALID="Este archivo no contiene una biblioteca DigiKam válida."
             L_TEXT_SELECT="Ingrese el número de su elección :"
@@ -115,6 +136,8 @@ set_strings() {
             L_NOTIF_ALREADY="è già la libreria attiva."
             L_ERR_TEMPLATE="File modello non trovato :"
             L_ERR_UNZIP="Errore durante la decompressione del modello."
+            L_ERR_COLLECTION="Impossibile dichiarare la raccolta nella nuova libreria. Aggiungila da DigiKam: Configura DigiKam, Raccolte."
+            L_RUNNING="DigiKam è in esecuzione. Alla chiusura riscriverà la configurazione annullando il cambio di libreria. Chiudere DigiKam e continuare?"
             L_ERR_EXISTS="Esiste già una libreria in questa posizione."
             L_ERR_INVALID="Questo file non contiene una libreria DigiKam valida."
             L_TEXT_SELECT="Inserisci il numero della tua scelta :"
@@ -142,6 +165,8 @@ set_strings() {
             L_NOTIF_ALREADY="ist bereits die aktive Bibliothek."
             L_ERR_TEMPLATE="Vorlagendatei nicht gefunden :"
             L_ERR_UNZIP="Fehler beim Entpacken der Vorlage."
+            L_ERR_COLLECTION="Die Sammlung konnte in der neuen Bibliothek nicht angelegt werden. Fügen Sie sie in DigiKam hinzu: DigiKam einrichten, Sammlungen."
+            L_RUNNING="DigiKam läuft bereits. Beim Beenden überschreibt es seine Konfiguration und macht den Bibliothekswechsel rückgängig. DigiKam schließen und fortfahren?"
             L_ERR_EXISTS="An diesem Speicherort existiert bereits eine Bibliothek."
             L_ERR_INVALID="Diese Datei enthält keine gültige DigiKam-Bibliothek."
             L_TEXT_SELECT="Geben Sie die Nummer Ihrer Wahl ein :"
@@ -169,6 +194,8 @@ set_strings() {
             L_NOTIF_ALREADY="já é a biblioteca ativa."
             L_ERR_TEMPLATE="Ficheiro de modelo não encontrado :"
             L_ERR_UNZIP="Erro ao descompactar o modelo."
+            L_ERR_COLLECTION="Não foi possível declarar a coleção na nova biblioteca. Adicione-a no DigiKam: Configurar DigiKam, Coleções."
+            L_RUNNING="O DigiKam está em execução. Ao fechar, reescreverá a configuração e anulará a mudança de biblioteca. Fechar o DigiKam e continuar?"
             L_ERR_EXISTS="Já existe uma biblioteca neste local."
             L_ERR_INVALID="Este ficheiro não contém uma biblioteca DigiKam válida."
             L_TEXT_SELECT="Digite o número da sua escolha :"
@@ -196,6 +223,8 @@ set_strings() {
             L_NOTIF_ALREADY="is al de actieve bibliotheek."
             L_ERR_TEMPLATE="Sjabloonbestand niet gevonden :"
             L_ERR_UNZIP="Fout bij het uitpakken van het sjabloon."
+            L_ERR_COLLECTION="Kan de verzameling niet aanmaken in de nieuwe bibliotheek. Voeg deze toe in DigiKam: DigiKam instellen, Verzamelingen."
+            L_RUNNING="DigiKam is actief. Bij het afsluiten overschrijft het zijn configuratie en maakt de bibliotheekwissel ongedaan. DigiKam sluiten en doorgaan?"
             L_ERR_EXISTS="Er bestaat al een bibliotheek op deze locatie."
             L_ERR_INVALID="Dit bestand bevat geen geldige DigiKam-bibliotheek."
             L_TEXT_SELECT="Voer het nummer van uw keuze in :"
@@ -223,6 +252,8 @@ set_strings() {
             L_NOTIF_ALREADY="jest już aktywną biblioteką."
             L_ERR_TEMPLATE="Plik szablonu nie znaleziony :"
             L_ERR_UNZIP="Błąd podczas rozpakowywania szablonu."
+            L_ERR_COLLECTION="Nie można utworzyć kolekcji w nowej bibliotece. Dodaj ją w DigiKam: Ustawienia DigiKam, Kolekcje."
+            L_RUNNING="DigiKam jest uruchomiony. Przy zamykaniu nadpisze konfigurację i cofnie zmianę biblioteki. Zamknąć DigiKam i kontynuować?"
             L_ERR_EXISTS="Biblioteka już istnieje w tej lokalizacji."
             L_ERR_INVALID="Ten plik nie zawiera prawidłowej biblioteki DigiKam."
             L_TEXT_SELECT="Wpisz numer swojego wyboru :"
@@ -250,6 +281,8 @@ set_strings() {
             L_NOTIF_ALREADY="вже є активною бібліотекою."
             L_ERR_TEMPLATE="Файл шаблону не знайдено :"
             L_ERR_UNZIP="Помилка розпакування шаблону."
+            L_ERR_COLLECTION="Не вдалося створити колекцію в новій бібліотеці. Додайте її в DigiKam: Налаштувати DigiKam, Колекції."
+            L_RUNNING="DigiKam запущено. Під час закриття він перезапише конфігурацію і скасує зміну бібліотеки. Закрити DigiKam і продовжити?"
             L_ERR_EXISTS="Бібліотека вже існує в цьому місці."
             L_ERR_INVALID="Цей файл не містить дійсної бібліотеки DigiKam."
             L_TEXT_SELECT="Введіть номер вибору :"
@@ -277,6 +310,8 @@ set_strings() {
             L_NOTIF_ALREADY="уже является активной библиотекой."
             L_ERR_TEMPLATE="Файл шаблона не найден :"
             L_ERR_UNZIP="Ошибка при распаковке шаблона."
+            L_ERR_COLLECTION="Не удалось создать коллекцию в новой библиотеке. Добавьте её в DigiKam: Настроить DigiKam, Коллекции."
+            L_RUNNING="DigiKam запущен. При закрытии он перезапишет конфигурацию и отменит смену библиотеки. Закрыть DigiKam и продолжить?"
             L_ERR_EXISTS="Библиотека уже существует в этом месте."
             L_ERR_INVALID="Этот файл не содержит допустимой библиотеки DigiKam."
             L_TEXT_SELECT="Введите номер вашего выбора :"
@@ -304,6 +339,8 @@ set_strings() {
             L_NOTIF_ALREADY="はすでにアクティブなライブラリです。"
             L_ERR_TEMPLATE="テンプレートファイルが見つかりません :"
             L_ERR_UNZIP="テンプレートの解凍中にエラーが発生しました。"
+            L_ERR_COLLECTION="新しいライブラリにコレクションを登録できませんでした。DigiKam の設定からコレクションを追加してください。"
+            L_RUNNING="DigiKam が実行中です。終了時に設定が上書きされ、ライブラリの切り替えが取り消されます。DigiKam を閉じて続行しますか？"
             L_ERR_EXISTS="この場所にはすでにライブラリが存在します。"
             L_ERR_INVALID="このファイルには有効な DigiKam ライブラリが含まれていません。"
             L_TEXT_SELECT="選択肢の番号を入力してください :"
@@ -331,6 +368,8 @@ set_strings() {
             L_NOTIF_ALREADY="已经是当前资料库。"
             L_ERR_TEMPLATE="找不到模板文件 :"
             L_ERR_UNZIP="解压模板时出错。"
+            L_ERR_COLLECTION="无法在新库中创建收藏集。请在 DigiKam 的设置中添加收藏集。"
+            L_RUNNING="DigiKam 正在运行。关闭时它会重写配置并撤销库切换。关闭 DigiKam 后继续吗？"
             L_ERR_EXISTS="此位置已存在资料库。"
             L_ERR_INVALID="此文件不包含有效的 DigiKam 资料库。"
             L_TEXT_SELECT="请输入您的选择编号 :"
@@ -358,6 +397,8 @@ set_strings() {
             L_NOTIF_ALREADY="은(는) 이미 활성 라이브러리입니다."
             L_ERR_TEMPLATE="템플릿 파일을 찾을 수 없습니다 :"
             L_ERR_UNZIP="템플릿 압축 해제 중 오류가 발생했습니다."
+            L_ERR_COLLECTION="새 라이브러리에 컬렉션을 등록하지 못했습니다. DigiKam 설정에서 컬렉션을 추가하세요."
+            L_RUNNING="DigiKam이 실행 중입니다. 종료할 때 설정을 덮어써서 라이브러리 전환이 취소됩니다. DigiKam을 닫고 계속할까요?"
             L_ERR_EXISTS="이 위치에 이미 라이브러리가 존재합니다."
             L_ERR_INVALID="이 파일에는 유효한 DigiKam 라이브러리가 없습니다."
             L_TEXT_SELECT="선택 번호를 입력하세요 :"
@@ -385,6 +426,8 @@ set_strings() {
             L_NOTIF_ALREADY="is already the active library."
             L_ERR_TEMPLATE="Template file not found :"
             L_ERR_UNZIP="Error while extracting template."
+            L_ERR_COLLECTION="Could not declare the collection in the new library. Add it from DigiKam: Configure DigiKam, Collections."
+            L_RUNNING="DigiKam is running. On exit it will rewrite its configuration and undo the library switch. Close DigiKam, then continue?"
             L_ERR_EXISTS="A library already exists at this location."
             L_ERR_INVALID="This file does not contain a valid DigiKam library."
             L_TEXT_SELECT="Enter the number of your choice :"
@@ -416,18 +459,27 @@ ui_warning() {
 
 ui_notify() {
     local msg="$1"
+    # Equivalent Linux de « display notification » sous macOS : la notification
+    # doit rendre la main immediatement. zenity --notification reste en attente
+    # jusqu a fermeture : il bloquerait le lancement de DigiKam qui suit.
+    if command -v notify-send &>/dev/null; then
+        notify-send -a "$L_TITLE" -i digikam-switch "$L_TITLE" "$msg" >/dev/null 2>&1 &
+        return 0
+    fi
     case "$UI" in
-        kdialog) kdialog --passivepopup "$msg" 3 --title "$L_TITLE" ;;
-        zenity)  zenity --notification --text="$msg" ;;
+        kdialog) kdialog --passivepopup "$msg" 3 --title "$L_TITLE" >/dev/null 2>&1 & ;;
+        zenity)  ( zenity --notification --text="$msg" >/dev/null 2>&1 & ) ;;
         text)    echo "$msg" ;;
     esac
+    return 0
 }
 
 ui_input() {
     local prompt="$1" default="$2" title="${3:-$L_TITLE}"
     case "$UI" in
         kdialog) kdialog --inputbox "$prompt" "$default" --title "$title" ;;
-        zenity)  zenity --entry --title="$title" --text="$prompt" --entry-text="$default" ;;
+        zenity)  zenity --entry --title="$title" --text="$prompt" --entry-text="$default" \
+                        --ok-label="$L_BTN_CONTINUE" --cancel-label="$L_BTN_CANCEL" ;;
         text)    read -rp "$prompt " val; echo "$val" ;;
     esac
 }
@@ -451,11 +503,29 @@ ui_choose_file() {
 }
 
 ui_confirm() {
-    local msg="$1" title="${2:-$L_TITLE}"
+    local msg="$1" title="${2:-$L_TITLE}" ok="${3:-}" cancel="${4:-}"
+    # Libellés explicites quand ils sont fournis, comme sur macOS où les boutons
+    # portent « Annuler » et « Créer et ouvrir » plutôt qu un Oui/Non générique.
     case "$UI" in
-        kdialog) kdialog --yesno "$msg" --title "$title" && echo "yes" || echo "no" ;;
-        zenity)  zenity --question --title="$title" --text="$msg" && echo "yes" || echo "no" ;;
-        text)    read -rp "$msg [y/N] " val; [[ "$val" =~ ^[yY] ]] && echo "yes" || echo "no" ;;
+        kdialog)
+            if [ -n "$ok" ]; then
+                kdialog --yesno "$msg" --title "$title" \
+                        --yes-label "$ok" --no-label "${cancel:-$L_BTN_CANCEL}" \
+                    && echo "yes" || echo "no"
+            else
+                kdialog --yesno "$msg" --title "$title" && echo "yes" || echo "no"
+            fi ;;
+        zenity)
+            if [ -n "$ok" ]; then
+                zenity --question --title="$title" --text="$msg" \
+                       --ok-label="$ok" --cancel-label="${cancel:-$L_BTN_CANCEL}" \
+                    && echo "yes" || echo "no"
+            else
+                zenity --question --title="$title" --text="$msg" && echo "yes" || echo "no"
+            fi ;;
+        text)
+            read -rp "$msg [${ok:-y}/${cancel:-N}] " val
+            [[ "$val" =~ ^[yYoO] ]] && echo "yes" || echo "no" ;;
     esac
 }
 
@@ -519,9 +589,30 @@ library_name() {
 }
 
 # ── Lister les bibliothèques DigiKam disponibles ──────────────────────────────
+# Dossier « Images » de l utilisateur. Il est localise : ~/Images en francais,
+# ~/Bilder en allemand, ~/Immagini en italien... Le coder en dur a « Pictures »
+# rend invisibles les bibliotheques des systemes non anglophones.
+pictures_dir() {
+    local d=""
+    if command -v xdg-user-dir &>/dev/null; then
+        d=$(xdg-user-dir PICTURES 2>/dev/null)
+    fi
+    if [ -z "$d" ] || [ "$d" = "$HOME" ]; then
+        # Pas de xdg-user-dir : lire directement la configuration XDG.
+        if [ -f "$HOME/.config/user-dirs.dirs" ]; then
+            d=$(grep -m1 '^XDG_PICTURES_DIR=' "$HOME/.config/user-dirs.dirs" \
+                | sed -e 's/^XDG_PICTURES_DIR=//' -e 's/^"//' -e 's/"$//' \
+                      -e "s|^\$HOME|$HOME|")
+        fi
+    fi
+    [ -n "$d" ] && [ -d "$d" ] && { echo "$d"; return 0; }
+    # Dernier recours : l emplacement anglais.
+    echo "$HOME/Pictures"
+}
+
 list_libraries() {
     local dir lib
-    for dir in "$HOME/.local/share/digikam" "$HOME/Pictures"; do
+    for dir in "$HOME/.local/share/digikam" "$(pictures_dir)"; do
         [ -d "$dir" ] || continue
         while IFS= read -r -d '' lib; do
             [ -f "$lib/digikam4.db" ] && echo "$lib"
@@ -533,15 +624,71 @@ list_libraries() {
 update_digikamrc() {
     local new_path="$1"
     [[ "$new_path" != */ ]] && new_path="$new_path/"
-    sed -i \
-        -e "s|^Database Name=.*|Database Name=$new_path|" \
-        -e "s|^Database Name Face=.*|Database Name Face=$new_path|" \
-        -e "s|^Database Name Similarity=.*|Database Name Similarity=$new_path|" \
-        -e "s|^Database Name Thumbnails=.*|Database Name Thumbnails=$new_path|" \
-        "$DIGIKAMRC"
+
+    # Le fichier peut ne pas exister (DigiKam jamais lance) : on le cree avec la
+    # section attendue, sinon le sed echouerait en silence et la bascule serait
+    # sans effet.
+    if [ ! -f "$DIGIKAMRC" ]; then
+        mkdir -p "$(dirname "$DIGIKAMRC")"
+        printf '[Database Settings]\n' > "$DIGIKAMRC"
+    fi
+
+    # Section [Database Settings] absente : on l ajoute.
+    if ! grep -q '^\[Database Settings\]' "$DIGIKAMRC"; then
+        printf '\n[Database Settings]\n' >> "$DIGIKAMRC"
+    fi
+
+    local key
+    for key in "Database Name" "Database Name Face" \
+               "Database Name Similarity" "Database Name Thumbnails"; do
+        if grep -q "^$key=" "$DIGIKAMRC"; then
+            sed -i "s|^$key=.*|$key=$new_path|" "$DIGIKAMRC"
+        else
+            # Cle absente : on l insere juste apres l en-tete de section.
+            sed -i "/^\[Database Settings\]/a $key=$new_path" "$DIGIKAMRC"
+        fi
+    done
+
+    # Verification : la bascule a-t-elle vraiment ete ecrite ?
+    grep -q "^Database Name=$new_path\$" "$DIGIKAMRC"
 }
 
 # ── Créer une nouvelle bibliothèque ───────────────────────────────────────────
+# ── Collection racine de la bibliotheque ──────────────────────────────────────
+# Une base DigiKam neuve n a aucune collection (table AlbumRoots vide) : DigiKam
+# s ouvre alors sans racine d album, et il devient impossible de creer un album
+# ou d importer des images. On declare donc la bibliotheque elle-meme comme
+# collection, ce que DigiKam fait aussi par defaut (base et photos au meme
+# endroit). L identifiant de type « path= » est prefere a « uuid= » : il ne
+# depend pas du systeme de fichiers, donc la bibliotheque reste utilisable si
+# elle est deplacee ou posee sur un disque externe.
+register_collection_root() {
+    local lib_path="${1%/}"
+    local db="$lib_path/digikam4.db"
+    local label
+    label=$(library_name "$lib_path")
+    [ -f "$db" ] || return 1
+
+    local sql="INSERT OR IGNORE INTO AlbumRoots
+        (label, status, type, identifier, specificPath, caseSensitivity)
+        VALUES ('$(printf '%s' "$label" | sed "s/'/''/g")', 0, 1,
+                'volumeid:?path=$(printf '%s' "$lib_path" | sed "s/'/''/g")', '/', 0);"
+
+    if command -v sqlite3 &>/dev/null; then
+        sqlite3 "$db" "$sql" 2>/dev/null && return 0
+    fi
+    if command -v python3 &>/dev/null; then
+        python3 - "$db" "$sql" << 'PYEOF' 2>/dev/null && return 0
+import sys, sqlite3
+con = sqlite3.connect(sys.argv[1])
+con.execute(sys.argv[2])
+con.commit()
+con.close()
+PYEOF
+    fi
+    return 1
+}
+
 create_library() {
     local lib_path="$1"
     local lib_name
@@ -559,17 +706,29 @@ create_library() {
 
     unzip -q "$TEMPLATE_ZIP" -d "$tmp_dir"
 
-    if [ ! -d "$tmp_dir/Digikam.digikamlibrary" ]; then
+    # On ne suppose pas le nom du dossier contenu dans le template : on le
+    # repère par la présence de digikam4.db, seul critère qui fasse foi.
+    local extracted
+    extracted=$(find "$tmp_dir" -maxdepth 2 -type f -name digikam4.db 2>/dev/null | head -1)
+    [ -n "$extracted" ] && extracted=$(dirname "$extracted")
+
+    if [ -z "$extracted" ] || [ ! -d "$extracted" ]; then
         ui_error "$L_ERR_UNZIP"
         rm -rf "$tmp_dir"
         exit 1
     fi
 
-    mv "$tmp_dir/Digikam.digikamlibrary" "$tmp_dir/$lib_name.digikamlibrary"
+    mv "$extracted" "$tmp_dir/$lib_name.digikamlibrary"
     mv "$tmp_dir/$lib_name.digikamlibrary" "$lib_parent/"
     rm -rf "$tmp_dir"
 
     cp "$DIGIKAMRC" "$lib_path/digikamrc.template" 2>/dev/null
+
+    # Sans collection racine, DigiKam ne permet ni album ni import.
+    if ! register_collection_root "$lib_path"; then
+        ui_warning "$L_ERR_COLLECTION"
+    fi
+
     update_digikamrc "$lib_path"
 }
 
@@ -648,6 +807,16 @@ launch_digikam() {
     "${DIGIKAM_CMD[@]}" &
 }
 
+# DigiKam en cours d execution ? Il reecrit digikamrc en quittant, ce qui
+# annulerait la bascule. On ne compte que le nom de processus exact et
+# l AppImage, jamais ce script lui-meme.
+digikam_running() {
+    local pids
+    pids=$( { pgrep -x digikam; pgrep -f 'digikam[^ ]*\.AppImage'; } 2>/dev/null \
+            | grep -v "^$$\$" | sort -u )
+    [ -n "$pids" ]
+}
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 main() {
     UI=$(detect_ui)
@@ -658,6 +827,28 @@ main() {
     if ! resolve_digikam; then
         ui_error "$(digikam_notfound_msg)"
         exit 1
+    fi
+
+    # Avertir si DigiKam tourne deja : sa fermeture ecraserait la bascule.
+    if digikam_running; then
+        if [ "$(ui_confirm "$L_RUNNING" "$L_TITLE")" != "yes" ]; then
+            exit 0
+        fi
+    fi
+
+    # Ouverture directe d'une bibliotheque passee en argument (chemin d'un
+    # dossier .digikamlibrary), pour une action de gestionnaire de fichiers.
+    if [ -n "$1" ]; then
+        local target="${1%/}"
+        if [ -f "$target/digikam4.db" ]; then
+            update_digikamrc "$target"
+            ui_notify "$L_NOTIF_ACTIVATED : $(library_name "$target")"
+            launch_digikam
+            exit 0
+        else
+            ui_warning "$L_ERR_INVALID"
+            exit 1
+        fi
     fi
 
     local active active_name
@@ -693,7 +884,7 @@ main() {
     if [ "$choice" = "$L_OTHER" ]; then
 
         local other_location
-        other_location=$(ui_choose_file "$L_FILE_PROMPT")
+        other_location=$(ui_choose_folder "$L_FILE_PROMPT")
         [ -z "$other_location" ] && exit 0
 
         other_location="${other_location%/}"
@@ -730,7 +921,8 @@ main() {
         fi
 
         local confirm
-        confirm=$(ui_confirm "$L_CONFIRM_MSG\n$full_path" "$L_CONFIRM_TITLE")
+        confirm=$(ui_confirm "$L_CONFIRM_MSG\n$full_path" "$L_CONFIRM_TITLE" \
+                              "$L_BTN_CREATE" "$L_BTN_CANCEL")
         [ "$confirm" != "yes" ] && exit 0
 
         create_library "$full_path"
@@ -765,4 +957,4 @@ main() {
     launch_digikam
 }
 
-main
+main "$@"

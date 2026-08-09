@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.m_rick.digikam-switch</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>DigiKam Switch</name>
+  <summary>Manage multiple DigiKam photo libraries</summary>
+  <summary xml:lang="fr">Gérer plusieurs bibliothèques photo DigiKam</summary>
+
+  <description>
+    <p>
+      DigiKam Switch lets you manage several DigiKam photo libraries from a
+      simple graphical interface: switch between libraries, create new ones,
+      or locate an existing one, then launch DigiKam on it directly.
+    </p>
+    <p xml:lang="fr">
+      DigiKam Switch permet de gérer plusieurs bibliothèques photo DigiKam
+      depuis une interface graphique simple : basculer d'une bibliothèque à
+      l'autre, en créer de nouvelles ou en localiser une existante, puis lancer
+      DigiKam dessus directement.
+    </p>
+    <p>Supports KDE (kdialog) and GNOME/GTK (zenity) desktops, with a text fallback.</p>
+  </description>
+
+  <launchable type="desktop-id">digikam-switch.desktop</launchable>
+  <icon type="stock">digikam-switch</icon>
+
+  <categories>
+    <category>Graphics</category>
+    <category>Photography</category>
+  </categories>
+
+  <url type="homepage">https://github.com/M-Rick/digikam-switch</url>
+  <url type="bugtracker">https://github.com/M-Rick/digikam-switch/issues</url>
+
+  <developer id="io.github.m_rick">
+    <name>Aymeric Gillaizeau</name>
+  </developer>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="1.0.0" date="2026-08-03" />
+  </releases>
+</component>
