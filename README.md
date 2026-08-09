@@ -2,7 +2,7 @@
 
 **DigiKam Switch** is a multiple library manager for [DigiKam](https://www.digikam.org/), available on macOS and Linux.
 
-DigiKam does not natively support multiple photo libraries (unlike Apple Photos). DigiKam Switch fills this gap with a simple graphical interface: choose the active library, create a new one, or locate an existing one — then launch DigiKam directly.
+DigiKam does not natively support multiple photo libraries (unlike Apple Photos). DigiKam Switch fills this gap with a simple graphical interface: choose the active library, create a new one, or locate an existing one, then launch DigiKam directly.
 
 ![DigiKam Switch](Screenshot.png)
 
@@ -41,22 +41,26 @@ digikam-switch/
 │   └── screenshots/
 │       └── platypus_config.png
 └── linux/
-    ├── digikam_switch_linux.sh   ← Main script
-    ├── digikam-switch.desktop    ← Application menu entry
-    ├── org.digikam.library.xml   ← MIME type declaration
-    ├── install.sh                ← Installation script
-    └── build_deb.sh              ← Debian package builder
+    ├── digikam_switch_linux.sh                       ← Main script
+    ├── digikam-switch.desktop                        ← Application menu entry
+    ├── org.digikam.library.xml                       ← MIME type declaration
+    ├── io.github.m_rick.digikam-switch.metainfo.xml  ← AppStream metadata (GNOME Software / KDE Discover)
+    ├── install.sh                                    ← Manual installation script
+    ├── verifier_digikam_switch.sh                    ← Install and diagnostic checker
+    ├── nettoyer_digikam_switch.sh                    ← Removes every trace (package + manual install)
+    ├── uninstall.sh                                  ← Manual uninstallation script
+    └── build_deb.sh                                  ← Debian package builder
 ```
 
 ---
 
 ## The `.digikamlibrary` format
 
-DigiKam Switch creates and manages libraries as `.digikamlibrary` packages — a folder whose extension signals to macOS that it should be treated as an opaque bundle (similar to `.app` or `.bundle`). Benefits:
+DigiKam Switch creates and manages libraries as `.digikamlibrary` packages, a folder whose extension signals to macOS that it should be treated as an opaque bundle (similar to `.app` or `.bundle`). Benefits:
 
 - On macOS, Finder hides the internal contents, preventing accidental manipulation of SQLite databases
 - The `.digikamlibrary` extension is registered as a custom UTI with its own icon
-- On Linux, the extension works as any regular folder — it has no special meaning for the system, but keeps things consistent across platforms
+- On Linux, the extension works as any regular folder. It has no special meaning for the system, but keeps things consistent across platforms. A library is opened from the DigiKam Switch application itself, not by double-clicking the folder
 
 **Any folder containing a `digikam4.db` file is recognized**, regardless of its extension. Existing DigiKam libraries in plain folders are supported via **Other location...** in the interface.
 
@@ -120,11 +124,27 @@ Libraries elsewhere are accessible via **Other location...**.
 
 ### Requirements
 
-- DigiKam installed and available as the `digikam` command
+- DigiKam installed by any method: native package, Flatpak, Snap, or AppImage integrated into the application menu. DigiKam Switch resolves the launch command at runtime (PATH, Flatpak, Snap, then the `.desktop` entry), so DigiKam does not need to be available under the literal `digikam` command name.
 - `kdialog` (KDE) or `zenity` (GNOME/GTK) for the graphical interface
 - `unzip` for template extraction
+- `sqlite3` (or `python3` as a fallback) to declare the collection root of a new library
 
-### Installation
+### Option A — Debian package (recommended)
+
+```bash
+bash linux/build_deb.sh
+sudo apt install ./linux/digikam-switch_1.0.0_all.deb
+```
+
+`build_deb.sh` generates `linux/digikam-switch_1.0.0_all.deb`. Installing with `apt` (rather than `dpkg -i`) resolves the `kdialog | zenity` dependency automatically.
+
+The package registers with dpkg and ships an AppStream metainfo file, so it appears in GNOME Software / KDE Discover and can be removed there, or from the terminal:
+
+```bash
+sudo apt remove digikam-switch
+```
+
+### Option B — Manual installation
 
 ```bash
 git clone https://github.com/M-Rick/digikam-switch.git
@@ -137,16 +157,45 @@ Installs:
 - `digikam_template.zip` → `/usr/local/share/digikam-switch/`
 - `digikam-switch.desktop` → `~/.local/share/applications/`
 - `org.digikam.library.xml` → `/usr/share/mime/packages/`
+- `io.github.m_rick.digikam-switch.metainfo.xml` → `/usr/share/metainfo/`
 - `DigikamSwitch.svg` → `/usr/share/icons/hicolor/scalable/apps/`
 - `DigikamLibrary.svg` → `/usr/share/icons/hicolor/scalable/mimetypes/`
 
-### Build the Debian package
+A manual installation is not registered with dpkg, so it will not appear in GNOME Software. To remove it:
 
 ```bash
-bash linux/build_deb.sh
+sudo bash linux/uninstall.sh
 ```
 
-Generates `linux/digikam-switch_1.0.0_all.deb`.
+### Checking the installation
+
+`verifier_digikam_switch.sh` checks everything in one go and changes nothing by default:
+
+```bash
+bash linux/verifier_digikam_switch.sh
+```
+
+It reports whether DigiKam is still running, which library is active, which pictures folder is detected, which tools are available, and, for every library found, whether it has a collection root. It can also perform the install itself, backing up `digikamrc` and asking for confirmation before removing any previous version:
+
+```bash
+sudo bash linux/verifier_digikam_switch.sh --install ./linux/digikam-switch_1.0.0_all.deb
+```
+
+### Removing everything
+
+`apt remove` deletes the files but keeps a residual record, so `dpkg -l` still shows the package with an `rc` status. To wipe every trace, including a previous manual installation and a package left unconfigured after a failed install:
+
+```bash
+sudo bash linux/nettoyer_digikam_switch.sh
+```
+
+It never touches your libraries, your photos or `digikamrc`. The equivalent single command for the package alone is `sudo dpkg -P digikam-switch`.
+
+### Collection root
+
+A DigiKam album can only exist under a **collection root**, stored in the `AlbumRoots` table of `digikam4.db`, not in `digikamrc`. The template database ships with that table empty, so a brand new library would accept neither albums nor imports. DigiKam Switch therefore declares the library folder itself as the collection root when creating a library, using a filesystem-independent identifier (`volumeid:?path=...`) so the library keeps working if it is moved or placed on an external drive.
+
+Libraries created before this behaviour existed have no collection root. Either recreate them, or add the collection from DigiKam: Configure DigiKam, Collections.
 
 ### Graphical interface detection
 
@@ -158,7 +207,9 @@ Generates `linux/digikam-switch_1.0.0_all.deb`.
 ### Detected library folders
 
 - `~/.local/share/digikam/`
-- `~/Pictures/`
+- Your pictures folder, as defined by XDG (`XDG_PICTURES_DIR`). This is localized: `~/Pictures` in English, `~/Images` in French, `~/Bilder` in German, and so on. The English path is used as a fallback if XDG gives nothing.
+
+Libraries elsewhere are accessible via **Other location...**.
 
 ---
 
@@ -181,5 +232,3 @@ zip digikam_template.zip Digikam.digikamlibrary/*.db
 ## License
 
 GPL v3 — in the spirit of the DigiKam project.
-
-
