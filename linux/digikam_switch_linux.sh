@@ -732,6 +732,26 @@ create_library() {
     update_digikamrc "$lib_path"
 }
 
+# ── Emplacement de digikamrc ──────────────────────────────────────────────────
+# DigiKam en Flatpak vit en bac a sable : il lit et ecrit
+# ~/.var/app/org.kde.digikam/config/digikamrc, et ne voit pas ~/.config/digikamrc.
+# Ecrire au mauvais endroit rendrait la bascule sans effet.
+FLATPAK_DIGIKAMRC="$HOME/.var/app/org.kde.digikam/config/digikamrc"
+NATIVE_DIGIKAMRC="$HOME/.config/digikamrc"
+
+resolve_digikamrc() {
+    # DigiKam lance via Flatpak : sa configuration est dans le bac a sable.
+    if [ "${DIGIKAM_CMD[0]:-}" = "flatpak" ]; then
+        echo "$FLATPAK_DIGIKAMRC"; return 0
+    fi
+    # Sinon l emplacement natif, sauf s il n existe pas alors que celui du
+    # Flatpak est present (DigiKam installe uniquement en Flatpak, lance par un
+    # lanceur maison qui n est pas la commande flatpak).
+    [ -f "$NATIVE_DIGIKAMRC" ] && { echo "$NATIVE_DIGIKAMRC"; return 0; }
+    [ -f "$FLATPAK_DIGIKAMRC" ] && { echo "$FLATPAK_DIGIKAMRC"; return 0; }
+    echo "$NATIVE_DIGIKAMRC"
+}
+
 # ── Résolution de la commande DigiKam ─────────────────────────────────────────
 # DigiKam s'installe de plusieurs façons sous Linux : paquet natif, Flatpak,
 # Snap, ou AppImage. Aucune ne garantit un binaire nommé « digikam » dans le
@@ -828,6 +848,9 @@ main() {
         ui_error "$(digikam_notfound_msg)"
         exit 1
     fi
+
+    # L emplacement de digikamrc depend du mode d installation (natif ou Flatpak).
+    DIGIKAMRC=$(resolve_digikamrc)
 
     # Avertir si DigiKam tourne deja : sa fermeture ecraserait la bascule.
     if digikam_running; then

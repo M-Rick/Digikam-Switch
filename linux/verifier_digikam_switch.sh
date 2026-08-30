@@ -40,7 +40,17 @@ info()   { printf '       %s\n' "$1"; }
 # L'utilisateur réel, même sous sudo.
 REAL_USER="${SUDO_USER:-${USER:-$(id -un)}}"
 REAL_HOME=$(eval echo "~$REAL_USER")
-DIGIKAMRC="$REAL_HOME/.config/digikamrc"
+# DigiKam en Flatpak lit sa configuration dans son bac a sable et ne voit pas
+# ~/.config/digikamrc : on retient celle qui existe reellement.
+NATIVE_DIGIKAMRC="$REAL_HOME/.config/digikamrc"
+FLATPAK_DIGIKAMRC="$REAL_HOME/.var/app/org.kde.digikam/config/digikamrc"
+if [ -f "$NATIVE_DIGIKAMRC" ]; then
+    DIGIKAMRC="$NATIVE_DIGIKAMRC"
+elif [ -f "$FLATPAK_DIGIKAMRC" ]; then
+    DIGIKAMRC="$FLATPAK_DIGIKAMRC"
+else
+    DIGIKAMRC="$NATIVE_DIGIKAMRC"
+fi
 
 # Dossier images localisé (~/Images en français, ~/Bilder en allemand...).
 pictures_dir() {
@@ -89,6 +99,8 @@ fi
 
 if [ -f "$DIGIKAMRC" ]; then
     bon "digikamrc présent : $DIGIKAMRC"
+    [ "$DIGIKAMRC" = "$FLATPAK_DIGIKAMRC" ] && \
+        info "Configuration Flatpak (bac à sable), pas l'emplacement natif."
     ACTIVE=$(grep -m1 '^Database Name=' "$DIGIKAMRC" | sed 's/^Database Name=//')
     info "Bibliothèque active : ${ACTIVE:-(aucune)}"
 else
